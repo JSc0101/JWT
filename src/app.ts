@@ -15,7 +15,7 @@ app.set("port", 3000);
 /**
  * @name middlewares
  */
-app.use(morgan('dev'))
-app.use(router);
+app.use(morgan("dev"));
+app.use("/api/auth", router);
 
 export default app;
