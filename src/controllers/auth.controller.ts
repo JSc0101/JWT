@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserModel } from "../schema/schema";
+import jwt from "jsonwebtoken";
 
 export const singUp = async (req: Request, res: Response) => {
   const user = new UserModel({
@@ -8,8 +9,9 @@ export const singUp = async (req: Request, res: Response) => {
     password: req.body.password,
   });
   const saveUser = await user.save();
-  console.log(saveUser);
-  res.send('save user register !')
+  const token = jwt.sign(saveUser._id, process.env.TOKEN_SECRET || 'token')
+
+  res.header('token-user', token).json(saveUser);
 };
 
 export const singIn = (req: Request, res: Response) => {
